@@ -389,7 +389,7 @@
 
                 // 1. Supercap Voltage (Calibrated: 1496 raw = ~4.0V)
                 if (vcapRaw > 0) {
-                    const vcapVolts = (vcapRaw / 1496.0) * 4.0;
+                    const vcapVolts = (vcapRaw / 1851.0) * 4.0;
                     document.getElementById('vcapVal').textContent = vcapVolts.toFixed(2);
                 }
 
