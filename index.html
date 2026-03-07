@@ -15,8 +15,11 @@
 
         :root {
             --bg-primary: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #1a1a25;
-            --border: #1e1e2e; --text-primary: #e8e8f0; --text-secondary: #6b6b80;
-            --text-dim: #3a3a50; --accent-orange: #ff6b2c;
+            --border: #303040; /* Brighter borders for card definition */
+            --text-primary: #ffffff; /* Pure white for main numbers */
+            --text-secondary: #a0a0b5; /* Vastly brighter for units/subtext */
+            --text-dim: #85859c; /* Vastly brighter for labels like 'Brightness' */
+            --accent-orange: #ff6b2c;
             --accent-orange-glow: rgba(255, 107, 44, 0.15); --accent-warm: #ffaa44;
             --accent-green: #44dd88; --accent-green-glow: rgba(68, 221, 136, 0.15);
             --accent-red: #ff4455; --accent-red-glow: rgba(255, 68, 85, 0.15);
@@ -170,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.0 — ble control</div>
+            <div class="version">proto v2.1.6 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
