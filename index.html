@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.2.8 — ble control</div>
+            <div class="version">proto v2.2.9 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -401,32 +401,29 @@
         // ============================================
         // Telemetry — receive notify from firmware
         // ============================================
-        function onTelemetryData(event) {
+		function onTelemetryData(event) {
             const data = event.target.value;
 
-            // Firmware sends: vcap(0), ichg(2), ntc_led(4), ntc_tps(6), pwm(8)
+            // Firmware sends 10 bytes: vcap(0), ichg(2), ntc_led(4), ntc_tps(6), pwm(8)
             if (data.byteLength >= 10) {
-                const vcapRaw    = data.getUint16(0, true);
-                const ichgRaw    = data.getUint16(2, true);
-                const ntcLedRaw  = data.getUint16(4, true);
-                const ntcTpsRaw  = data.getUint16(6, true);
-
-                // 1. Supercap Voltage (Calibrated: 1496 raw = ~4.0V)
+                // 1. Supercap Voltage (Calibrated for your 4.0V cap)
+                const vcapRaw = data.getUint16(0, true);
                 if (vcapRaw > 0) {
                     const vcapVolts = (vcapRaw / 1851.0) * 4.0;
                     document.getElementById('vcapVal').textContent = vcapVolts.toFixed(2);
                 }
 
-                // 2. Charge Current (Raw ADC for now)
+                // 2. Charge Current (mA)
+                const ichgRaw = data.getUint16(2, true);
                 document.getElementById('chargeI').textContent = ichgRaw;
 
-                // 3. LED Temperature (AIN2) - Ensure it uses the NEW function
-				const ledTempEl = document.getElementById('tempVal');
-				ledTempEl.textContent = calculateCelsius(ntcLedRaw); // Use the fixed function!
+                // 3. LED Temperature (AIN2) - Using the 1.8V calculation
+                const ntcLedRaw = data.getUint16(4, true);
+                document.getElementById('tempVal').textContent = calculateCelsius(ntcLedRaw);
 
-				// 4. TPS61169 Temperature (AIN3)
-				const tpsEl = document.getElementById('tpsTemp');
-				tpsEl.textContent = calculateCelsius(ntcTpsRaw); // Use the fixed function!
+                // 4. TPS61169 Temperature (AIN3) - Using the 1.8V calculation
+                const ntcTpsRaw = data.getUint16(6, true);
+                document.getElementById('tpsTemp').textContent = calculateCelsius(ntcTpsRaw);
             }
         }
 
