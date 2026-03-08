@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.1.8 — ble control</div>
+            <div class="version">proto v2.2 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -185,7 +185,14 @@
             </div>
             <button class="btn-connect" id="btnConnect" onclick="toggleConnection()">Connect</button>
         </div>
-
+		<div class="card">
+            <div class="card-label">LED Channel</div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="setLedChannel(0)" style="flex: 1; background: #ff5500; color: white; padding: 10px; border: none; border-radius: 5px;">Red-Orange</button>
+                <button onclick="setLedChannel(1)" style="flex: 1; background: #fff1e0; color: black; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">Warm White</button>
+                <button onclick="setLedChannel(2)" style="flex: 1; background: #00cc66; color: white; padding: 10px; border: none; border-radius: 5px;">Green</button>
+            </div>
+        </div>
         <div class="card">
             <div class="card-label">Brightness</div>
             <div class="brightness-display">
