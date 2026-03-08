@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.3.4 — ble control</div>
+            <div class="version">proto v2.3.5 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -370,32 +370,39 @@
             }
         }
 
+		const TEMP_LUT = [
+			{ raw: 2376, temp: 0 },
+			{ raw: 2076, temp: 10 },
+			{ raw: 1734, temp: 20 },
+			{ raw: 1535, temp: 25 },
+			{ raw: 1345, temp: 30 },
+			{ raw: 1000, temp: 40 },
+			{ raw: 723,  temp: 50 },
+			{ raw: 516,  temp: 60 },
+			{ raw: 363,  temp: 70 },
+			{ raw: 257,  temp: 80 },
+			{ raw: 184,  temp: 90 },
+			{ raw: 131,  temp: 100 }
+		];
 
-		// Converts raw 47k/47k ADC values to Celsius
-		function calculateCelsius(adcRaw) {
-			if (adcRaw < 10) return "--"; 
-			
-			// 1. Calculate the actual voltage at the pin
-			// 12-bit ADC (4095) with 1/4 gain (2.4V full scale)
-			let vIn = (adcRaw / 4095.0) * 2.4; 
-			
-			// 2. Calculate NTC resistance
-			// V_out = V_ref * (R_ntc / (R_ntc + R_fixed))
-			// rNtc = (vIn * R_fixed) / (V_system - vIn)
-			let vSystem = 1.8; // YOUR ACTUAL RAIL VOLTAGE
-			let rFixed = 47000.0;
-			
-			if (vIn >= vSystem) return "OVERHEAT"; // Safety check
-			
-			let rNtc = (vIn * rFixed) / (vSystem - vIn);
-			
-			// 3. Steinhart-Hart B-parameter equation
-			let beta = 4050.0; 
-			let t0 = 298.15;   
-			let r0 = 47000.0;  
-			
-			let tempK = 1.0 / ( (1.0 / t0) + (1.0 / beta) * Math.log(rNtc / r0) );
-			return (tempK - 273.15).toFixed(1);
+		function calculateCelsius(rawAdc) {
+			// 1. Boundary Checks
+			if (rawAdc >= TEMP_LUT[0].raw) return 0;
+			if (rawAdc <= TEMP_LUT[TEMP_LUT.length - 1].raw) return 100;
+
+			// 2. Find the two points in the table to interpolate between
+			for (let i = 0; i < TEMP_LUT.length - 1; i++) {
+				const p1 = TEMP_LUT[i];
+				const p2 = TEMP_LUT[i + 1];
+
+				// Remember: Raw values decrease as Temp increases
+				if (rawAdc <= p1.raw && rawAdc >= p2.raw) {
+					// Linear Interpolation Formula
+					const fraction = (rawAdc - p1.raw) / (p2.raw - p1.raw);
+					return p1.temp + fraction * (p2.temp - p1.temp);
+				}
+			}
+			return 0;
 		}
 
         // ============================================
