@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.3.1 — ble control</div>
+            <div class="version">proto v2.3.2 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -414,8 +414,16 @@
                 }
 
                 // 2. Charge Current (mA)
+                // Inverted hardware logic: 3000 raw = 0mA, 2735 raw = 500mA
                 const ichgRaw = data.getUint16(2, true);
-                document.getElementById('chargeI').textContent = ichgRaw;
+                
+                // Calculate mA based on the 265-unit drop per 500mA
+                let current_mA = (3000 - ichgRaw) * (500.0 / 265.0);
+                
+                // Clamp to 0 just in case it floats slightly above 3000 when idle
+                if (current_mA < 0) current_mA = 0;
+                
+                document.getElementById('chargeI').textContent = current_mA.toFixed(0);
 
                 // 3. LED Temperature (AIN2) - Using the 1.8V calculation
                 const ntcLedRaw = data.getUint16(4, true);
