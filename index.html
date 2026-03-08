@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.3.5 — ble control</div>
+            <div class="version">proto v2.3.6 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -386,20 +386,26 @@
 		];
 
 		function calculateCelsius(rawAdc) {
-			// 1. Boundary Checks
-			if (rawAdc >= TEMP_LUT[0].raw) return 0;
-			if (rawAdc <= TEMP_LUT[TEMP_LUT.length - 1].raw) return 100;
+			// 1. Physical limits of the Murata NTC on your 1.8V rail
+			if (rawAdc >= 2376) return 0;   // Colder than 0C
+			if (rawAdc <= 131)  return 100; // Hotter than 100C
 
-			// 2. Find the two points in the table to interpolate between
 			for (let i = 0; i < TEMP_LUT.length - 1; i++) {
-				const p1 = TEMP_LUT[i];
-				const p2 = TEMP_LUT[i + 1];
+				const pHigh = TEMP_LUT[i];     // Lower temp, Higher Raw (e.g., 25C, 1535)
+				const pLow  = TEMP_LUT[i + 1]; // Higher temp, Lower Raw (e.g., 30C, 1345)
 
-				// Remember: Raw values decrease as Temp increases
-				if (rawAdc <= p1.raw && rawAdc >= p2.raw) {
-					// Linear Interpolation Formula
-					const fraction = (rawAdc - p1.raw) / (p2.raw - p1.raw);
-					return p1.temp + fraction * (p2.temp - p1.temp);
+				if (rawAdc <= pHigh.raw && rawAdc >= pLow.raw) {
+					// Corrected Interpolation:
+					// How far are we between the two raw points?
+					const rangeRaw = pHigh.raw - pLow.raw;
+					const offsetRaw = pHigh.raw - rawAdc;
+					const fraction = offsetRaw / rangeRaw;
+
+					// Add that fraction of the temperature gap to the base temperature
+					const rangeTemp = pLow.temp - pHigh.temp;
+					const finalTemp = pHigh.temp + (fraction * rangeTemp);
+					
+					return finalTemp; 
 				}
 			}
 			return 0;
