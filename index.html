@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.2.6 — ble control</div>
+            <div class="version">proto v2.2.7 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -420,13 +420,15 @@
                 // 2. Charge Current (Raw ADC for now)
                 document.getElementById('chargeI').textContent = ichgRaw;
 
-                // 3. LED Temperature (Replaces MCU Temp display)
-                const tempEl = document.getElementById('tempVal');
-                tempEl.textContent = calculateCelsius(ntcLedRaw);
+                // 3. LED Temperature (AIN2) - Ensure it uses the NEW function
+				const ntcLedRaw = data.getUint16(4, true);
+				const ledTempEl = document.getElementById('tempVal');
+				ledTempEl.textContent = calculateCelsius(ntcLedRaw); // Use the fixed function!
 
-                // 4. TPS61169 Temperature
-                const tpsEl = document.getElementById('tpsTemp');
-                tpsEl.textContent = calculateCelsius(ntcTpsRaw);
+				// 4. TPS61169 Temperature (AIN3)
+				const ntcTpsRaw = data.getUint16(6, true);
+				const tpsEl = document.getElementById('tpsTemp');
+				tpsEl.textContent = calculateCelsius(ntcTpsRaw); // Use the fixed function!
             }
         }
 
