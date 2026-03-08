@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.3.8 — ble control</div>
+            <div class="version">proto v2.3.9 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -221,7 +221,7 @@
             <div class="telemetry-grid">
                 <div class="telemetry-item" id="tempItem">
                     <div class="label">LED Driver</div>
-                    <div class="value"><span id="tempVal">--</span> <span class="unit">°C</span></div>
+                    <div class="value"><span id="tpsTemp">--</span> <span class="unit">°C</span></div>
                 </div>
                 <div class="telemetry-item" id="vcapItem">
                     <div class="label">Supercap</div>
@@ -229,7 +229,7 @@
                 </div>
                 <div class="telemetry-item" id="tpsTempItem">
                     <div class="label">LEDs</div>
-                    <div class="value"><span id="tpsTemp">--</span> <span class="unit">°C</span></div>
+                    <div class="value"><span id="tempVal">--</span> <span class="unit">°C</span></div>
                 </div>
                 <div class="telemetry-item" id="chargeItem">
                     <div class="label">Charge Current</div>
@@ -387,21 +387,21 @@
 			
 		];
 */
-			const TEMP_LUT = [
-				{ raw: 2376, temp: 0 },
-				{ raw: 1535, temp: 25 }, 
-				{ raw: 1000, temp: 36 },
-				{ raw: 650,  temp: 47 },   // Bench Anchor 1 (Your real-world measurement)
-				{ raw: 570,  temp: 57 },   // Bench Anchor 2 (Your real-world measurement)
-				{ raw: 450,  temp: 67 },   // Blended slope bridging the gap
-				{ raw: 340,  temp: 77 },   // Blended slope bridging the gap
-				{ raw: 257,  temp: 80 },   // Datasheet high-temp curve resumes
-				{ raw: 184,  temp: 90 },
-				{ raw: 131,  temp: 100 },
-				{ raw: 94,   temp: 110 },  // Danger Zone
-				{ raw: 70,   temp: 120 },  // Extreme Danger
-				{ raw: 60,   temp: 125 }   // NTC Absolute Maximum
-				];
+		const TEMP_LUT = [
+			{ raw: 2376, temp: 0 },
+			{ raw: 1535, temp: 25 }, 
+			{ raw: 1000, temp: 36 },
+			{ raw: 650,  temp: 47 },   // Bench Anchor 1 (Your real-world measurement)
+			{ raw: 570,  temp: 57 },   // Bench Anchor 2 (Your real-world measurement)
+			{ raw: 450,  temp: 67 },   // Blended slope bridging the gap
+			{ raw: 340,  temp: 77 },   // Blended slope bridging the gap
+			{ raw: 257,  temp: 80 },   // Datasheet high-temp curve resumes
+			{ raw: 184,  temp: 90 },
+			{ raw: 131,  temp: 100 },
+			{ raw: 94,   temp: 110 },  // Danger Zone
+			{ raw: 70,   temp: 120 },  // Extreme Danger
+			{ raw: 60,   temp: 125 }   // NTC Absolute Maximum
+			];
 
 		function calculateCelsius(rawAdc) {
 			// 1. Hard limits to prevent out-of-bounds math
