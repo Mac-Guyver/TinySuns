@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.3.9 — ble control</div>
+            <div class="version">proto v2.4.0 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -369,46 +369,32 @@
                 writeBrightness(next);
             }
         }
-/*
+
+		// murata values for the ntc sensors
 		const TEMP_LUT = [
 			{ raw: 2376, temp: 0 },
 			{ raw: 2076, temp: 10 },
 			{ raw: 1734, temp: 20 },
-			{ raw: 1535, temp: 25 }, 
-			{ raw: 1000, temp: 36.5 },
-			{ raw: 650,  temp: 47 },   
-			{ raw: 410,  temp: 60 },
+			{ raw: 1535, temp: 25 },
+			{ raw: 1345, temp: 30 },
+			{ raw: 1000, temp: 40 },
+			{ raw: 724,  temp: 50 },
+			{ raw: 516,  temp: 60 },
+			{ raw: 363,  temp: 70 },
 			{ raw: 257,  temp: 80 },
 			{ raw: 184,  temp: 90 },
 			{ raw: 131,  temp: 100 },
-			{ raw: 94, 	temp: 110 },
-			{ raw: 70,	temp: 120 },
-			{ raw: 60,	temp: 125 }
-			
+			{ raw: 95,   temp: 110 },
+			{ raw: 70,   temp: 120 },
+			{ raw: 61,   temp: 125 }
 		];
-*/
-		const TEMP_LUT = [
-			{ raw: 2376, temp: 0 },
-			{ raw: 1535, temp: 25 }, 
-			{ raw: 1000, temp: 36 },
-			{ raw: 650,  temp: 47 },   // Bench Anchor 1 (Your real-world measurement)
-			{ raw: 570,  temp: 57 },   // Bench Anchor 2 (Your real-world measurement)
-			{ raw: 450,  temp: 67 },   // Blended slope bridging the gap
-			{ raw: 340,  temp: 77 },   // Blended slope bridging the gap
-			{ raw: 257,  temp: 80 },   // Datasheet high-temp curve resumes
-			{ raw: 184,  temp: 90 },
-			{ raw: 131,  temp: 100 },
-			{ raw: 94,   temp: 110 },  // Danger Zone
-			{ raw: 70,   temp: 120 },  // Extreme Danger
-			{ raw: 60,   temp: 125 }   // NTC Absolute Maximum
-			];
 
 		function calculateCelsius(rawAdc) {
 			// 1. Hard limits to prevent out-of-bounds math
 			if (rawAdc >= TEMP_LUT[0].raw) return TEMP_LUT[0].temp;
 			if (rawAdc <= TEMP_LUT[TEMP_LUT.length - 1].raw) return TEMP_LUT[TEMP_LUT.length - 1].temp;
 
-			// 2. Linear Interpolation with tight gaps
+			// 2. Linear Interpolation
 			for (let i = 0; i < TEMP_LUT.length - 1; i++) {
 				const p1 = TEMP_LUT[i];     // Higher raw
 				const p2 = TEMP_LUT[i + 1]; // Lower raw
