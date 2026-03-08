@@ -173,7 +173,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.2 — ble control</div>
+            <div class="version">proto v2.2.1 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -250,6 +250,7 @@
         const SERVICE_UUID    = '12345678-1234-5678-1234-56789abcdef0';
         const CHAR_UUID       = '12345678-1234-5678-1234-56789abcdef1';
         const TELEMETRY_UUID  = '12345678-1234-5678-1234-56789abcdef2';
+		const COLOR_UUID	  = '12345678-1234-5678-1234-56789abcdef3';
 
         let device = null;
         let characteristic = null;
@@ -287,6 +288,10 @@
                 updateStatus('Setting up controls...', false);
                 characteristic = await service.getCharacteristic(CHAR_UUID);
 
+				// Get the Color char (def3)
+				colorCharacteristic = await service.getCharacteristic(COLOR_UUID);
+
+
                 // Read current brightness
                 const value = await characteristic.readValue();
                 const brightness = value.getUint8(0);
@@ -303,6 +308,7 @@
                 } catch (e) {
                     console.log('Telemetry not available:', e.message);
                 }
+							
 
                 isConnected = true;
                 updateStatus('Connected', true);
