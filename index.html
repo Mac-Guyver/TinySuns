@@ -288,10 +288,6 @@
                 updateStatus('Setting up controls...', false);
                 characteristic = await service.getCharacteristic(CHAR_UUID);
 
-				// Get the Color char (def3)
-				colorCharacteristic = await service.getCharacteristic(COLOR_UUID);
-
-
                 // Read current brightness
                 const value = await characteristic.readValue();
                 const brightness = value.getUint8(0);
@@ -309,7 +305,9 @@
                     console.log('Telemetry not available:', e.message);
                 }
 							
-
+				// Get the Color char (def3)
+				colorCharacteristic = await service.getCharacteristic(COLOR_UUID);
+				
                 isConnected = true;
                 updateStatus('Connected', true);
 
