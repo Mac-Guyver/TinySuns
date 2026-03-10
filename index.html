@@ -229,7 +229,7 @@
                 </div>
                 <div class="telemetry-item" id="tpsTempItem">
                     <div class="label">LEDs</div>
-                    <div class="value"><span id="tempVal">--</span> <span class="unit">°C</span></div>
+                    <div class="value"><span id="LEDTemp">--</span> <span class="unit">°C</span></div>
                 </div>
                 <div class="telemetry-item" id="chargeItem">
                     <div class="label">Charge Current</div>
@@ -433,7 +433,7 @@
                 const ichgRaw = data.getUint16(2, true);
                 
                 // Calculate mA based on the 265-unit drop per 500mA
-                let current_mA = (3000 - ichgRaw) * (500.0 / 265.0);
+                let current_mA = (110 - ichgRaw) * 28.57;
                 
                 // Clamp to 0 just in case it floats slightly above 3000 when idle
                 if (current_mA < 0) current_mA = 0;
@@ -442,7 +442,7 @@
 
                 // 3. LED Temperature (AIN2) - Using the 1.8V calculation
                 const ntcLedRaw = data.getUint16(4, true);
-                document.getElementById('tempVal').textContent = calculateCelsius(ntcLedRaw).toFixed(1);
+                document.getElementById('LEDTemp').textContent = calculateCelsius(ntcLedRaw).toFixed(1);
 
                 // 4. TPS61169 Temperature (AIN3) - Using the 1.8V calculation
                 const ntcTpsRaw = data.getUint16(6, true);
@@ -451,7 +451,7 @@
         }
 
         function resetTelemetry() {
-            document.getElementById('tempVal').textContent = '--';
+            document.getElementById('LEDTemp').textContent = '--';
             document.getElementById('vcapVal').textContent = '--';
             document.getElementById('tpsTemp').textContent = '--';
             document.getElementById('chargeI').textContent = '--';
