@@ -23,8 +23,9 @@
 
         body {
             background: var(--bg-primary); color: var(--text-primary);
-            font-family: 'Outfit', sans-serif; min-height: 100vh;
-            overflow-x: hidden; padding: 0 12px 16px; /* Reduced padding */
+            font-family: 'Outfit', sans-serif; 
+            min-height: 100vh; overflow-x: hidden; 
+            display: flex; justify-content: center;
         }
 
         body::before {
@@ -34,24 +35,29 @@
             pointer-events: none; z-index: 0;
         }
 
-        .container { max-width: 420px; margin: 0 auto; position: relative; z-index: 1; }
+        /* Flex column that fills the screen to push footer down */
+        .container { 
+            width: 100%; max-width: 420px; padding: 0 16px;
+            display: flex; flex-direction: column; min-height: 100vh; 
+            position: relative; z-index: 1; 
+        }
 
-        .header { text-align: center; padding: 16px 0 12px; } /* More compact header */
+        .header { text-align: center; padding: 24px 0 16px; } 
         .header h1 {
-            font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 600;
+            font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 600;
             letter-spacing: 3px; text-transform: uppercase;
             background: linear-gradient(135deg, var(--accent-orange), var(--accent-warm));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .header .version {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
-            color: var(--text-dim); letter-spacing: 2px; margin-top: 2px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            color: var(--text-dim); letter-spacing: 2px; margin-top: 4px;
         }
 
         .connection-bar {
             display: flex; align-items: center; justify-content: space-between;
             background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 12px; padding: 10px 14px; margin-bottom: 12px;
+            border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
         }
         .connection-status { display: flex; align-items: center; gap: 8px; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-red); transition: all 0.3s ease; }
@@ -63,21 +69,22 @@
             0%, 100% { box-shadow: 0 0 8px rgba(68, 221, 136, 0.2); }
             50% { box-shadow: 0 0 16px rgba(68, 221, 136, 0.4); }
         }
-        .status-text { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-secondary); }
+        .status-text { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); }
 
         .btn-connect {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 500;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500;
             letter-spacing: 1px; text-transform: uppercase; background: transparent;
             color: var(--accent-orange); border: 1px solid var(--accent-orange);
-            border-radius: 8px; padding: 6px 12px; cursor: pointer; transition: all 0.2s ease;
+            border-radius: 8px; padding: 8px 14px; cursor: pointer; transition: all 0.2s ease;
         }
         .btn-connect:hover { background: var(--accent-orange-glow); }
         .btn-connect.connected { color: var(--accent-red); border-color: var(--accent-red); }
         .btn-connect.connected:hover { background: var(--accent-red-glow); }
 
+        /* Generous card spacing restored */
         .card {
             background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 14px; padding: 16px; margin-bottom: 10px; /* Tighter padding */
+            border-radius: 16px; padding: 20px; margin-bottom: 16px; 
             animation: fadeIn 0.4s ease backwards;
         }
         .card:nth-child(1) { animation-delay: 0.05s; }
@@ -85,69 +92,55 @@
         .card:nth-child(3) { animation-delay: 0.15s; }
 
         .card-label {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 500;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 500;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px;
         }
 
-        /* --- NEW COLOR BUTTONS --- */
         .color-picker { display: flex; gap: 10px; }
         .color-btn {
-            flex: 1;
-            background: #000;
-            color: var(--btn-color);
-            border: 2px solid var(--btn-color);
-            border-radius: 8px;
-            padding: 10px 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            outline: none;
-            letter-spacing: 0.5px;
+            flex: 1; background: #000; color: var(--btn-color);
+            border: 2px solid var(--btn-color); border-radius: 8px; padding: 12px 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600;
+            text-transform: uppercase; cursor: pointer; transition: all 0.2s ease;
+            outline: none; letter-spacing: 0.5px;
         }
-        .color-btn.active {
-            background: var(--btn-color);
-            color: #000;
-            box-shadow: 0 0 12px var(--btn-color);
-        }
+        .color-btn.active { background: var(--btn-color); color: #000; box-shadow: 0 0 12px var(--btn-color); }
 
-        /* --- COMPACT BRIGHTNESS & SLIDER --- */
+        /* Perfectly centered PWM text */
         .brightness-display { 
-            display: flex; align-items: baseline; justify-content: center; margin-bottom: 16px; 
+            display: flex; align-items: center; justify-content: center; margin-bottom: 20px; 
         }
         .brightness-value {
-            font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; /* Reduced from 3.5rem */
+            font-family: 'JetBrains Mono', monospace; font-size: 3rem; 
             font-weight: 700; color: var(--text-primary); line-height: 1;
         }
-        .brightness-value .unit { font-size: 1.2rem; font-weight: 300; color: var(--text-secondary); margin-left: 2px; }
+        .brightness-value .unit { font-size: 1.4rem; font-weight: 300; color: var(--text-secondary); margin-left: 2px; }
         .brightness-label {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
             color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; 
-            margin-left: 12px; text-align: left; max-width: 60px; line-height: 1.3;
+            margin-left: 14px; text-align: left; max-width: 60px; line-height: 1.3;
         }
 
-        .slider-container { padding: 0 4px; margin-bottom: 16px; }
+        .slider-container { padding: 0 4px; margin-bottom: 20px; }
         input[type="range"] {
             -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
             border-radius: 3px; background: var(--border); outline: none; cursor: pointer;
         }
         input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none; width: 26px; height: 26px;
+            -webkit-appearance: none; appearance: none; width: 28px; height: 28px;
             border-radius: 50%; background: var(--accent-orange);
             box-shadow: 0 0 16px rgba(255, 107, 44, 0.3); cursor: pointer;
         }
         input[type="range"]::-moz-range-thumb {
-            width: 26px; height: 26px; border-radius: 50%; background: var(--accent-orange);
+            width: 28px; height: 28px; border-radius: 50%; background: var(--accent-orange);
             box-shadow: 0 0 16px rgba(255, 107, 44, 0.3); cursor: pointer; border: none;
         }
 
-        .presets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .presets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .btn-preset {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500;
             background: var(--bg-primary); color: var(--text-secondary);
-            border: 1px solid var(--border); border-radius: 8px; padding: 10px 4px;
+            border: 1px solid var(--border); border-radius: 8px; padding: 12px 4px;
             cursor: pointer; transition: all 0.15s ease; text-align: center;
         }
         .btn-preset:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--text-dim); }
@@ -156,20 +149,20 @@
         .btn-preset.off { color: var(--accent-red); border-color: transparent; }
         .btn-preset.off.active { background: var(--accent-red-glow); border-color: var(--accent-red); }
 
-        .telemetry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .telemetry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .telemetry-item {
             background: var(--bg-primary); border: 1px solid var(--border);
-            border-radius: 10px; padding: 10px 12px; /* Tighter padding */
+            border-radius: 10px; padding: 14px;
         }
         .telemetry-item .label {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.5rem; font-weight: 500;
-            letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 500;
+            letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px;
         }
         .telemetry-item .value {
-            font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; /* Scaled down slightly */
+            font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; 
             font-weight: 600; color: var(--text-primary);
         }
-        .telemetry-item .value .unit { font-size: 0.65rem; font-weight: 400; color: var(--text-secondary); }
+        .telemetry-item .value .unit { font-size: 0.7rem; font-weight: 400; color: var(--text-secondary); }
 
         .offline-banner {
             display: none; text-align: center; background: var(--accent-red-glow);
@@ -178,6 +171,10 @@
             font-size: 0.65rem; color: var(--accent-red);
         }
         .offline-banner.show { display: block; }
+
+        /* Pushes the footer to the very bottom to fill the void */
+        .footer { text-align: center; padding: 20px 0; margin-top: auto; }
+        .footer p { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; color: var(--text-dim); letter-spacing: 1px; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
@@ -189,7 +186,7 @@
     <div class="container">
         <div class="header">
             <h1>⚡ Litball</h1>
-            <div class="version">proto v2.5.0 — ble control</div>
+            <div class="version">proto v2.5.1 — ble control</div>
         </div>
 
         <div class="offline-banner" id="offlineBanner">offline — cached version</div>
@@ -205,8 +202,8 @@
         <div class="card">
             <div class="card-label">LED Channel</div>
             <div class="color-picker">
-                <button class="color-btn active" style="--btn-color: #ff5500;" onclick="handleColorBtn(this, 0)">Red-Org</button>
-                <button class="color-btn" style="--btn-color: #fff1e0;" onclick="handleColorBtn(this, 1)">Warm</button>
+                <button class="color-btn" style="--btn-color: #ff5500;" onclick="handleColorBtn(this, 0)">Red-Org</button>
+                <button class="color-btn active" style="--btn-color: #fff1e0;" onclick="handleColorBtn(this, 1)">Warm</button>
                 <button class="color-btn" style="--btn-color: #00cc66;" onclick="handleColorBtn(this, 2)">Green</button>
             </div>
         </div>
@@ -249,257 +246,4 @@
                     <div class="label">LEDs</div>
                     <div class="value"><span id="LEDTemp">--</span> <span class="unit">°C</span></div>
                 </div>
-                <div class="telemetry-item" id="chargeItem">
-                    <div class="label">Charge Current</div>
-                    <div class="value"><span id="chargeI">--</span> <span class="unit">mA</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ============================================
-        // BLE UUIDs — matching firmware
-        // ============================================
-        const SERVICE_UUID    = '12345678-1234-5678-1234-56789abcdef0';
-        const CHAR_UUID       = '12345678-1234-5678-1234-56789abcdef1';
-        const TELEMETRY_UUID  = '12345678-1234-5678-1234-56789abcdef2';
-        const COLOR_UUID      = '12345678-1234-5678-1234-56789abcdef3';
-
-        let device = null;
-        let characteristic = null;
-        let telemetryChar = null;
-        let colorCharacteristic = null;
-        let isConnected = false;
-        let writing = false;
-        let pendingValue = null;
-
-        // ============================================
-        // BLE Connection
-        // ============================================
-        async function toggleConnection() {
-            if (isConnected) { disconnect(); } else { await connect(); }
-        }
-
-        async function connect() {
-            try {
-                updateStatus('Requesting Bluetooth...', false);
-
-                if (!device) {
-                    device = await navigator.bluetooth.requestDevice({
-                        filters: [{ name: 'LED_Dimmer' }],
-                        optionalServices: [SERVICE_UUID]
-                    });
-                    device.addEventListener('gattserverdisconnected', onDisconnected);
-                }
-
-                updateStatus('Connecting to MCU...', false);
-                const server = await device.gatt.connect();
-
-                updateStatus('Finding service...', false);
-                const service = await server.getPrimaryService(SERVICE_UUID);
-
-                updateStatus('Setting up controls...', false);
-                characteristic = await service.getCharacteristic(CHAR_UUID);
-
-                // Read current brightness
-                const value = await characteristic.readValue();
-                const brightness = value.getUint8(0);
-                document.getElementById('brightnessSlider').value = brightness;
-                document.getElementById('brightnessVal').textContent = brightness;
-                updatePresetButtons(brightness);
-                updateSliderTrack(brightness);
-
-                // Setup Telemetry
-                try {
-                    telemetryChar = await service.getCharacteristic(TELEMETRY_UUID);
-                    await telemetryChar.startNotifications();
-                    telemetryChar.addEventListener('characteristicvaluechanged', onTelemetryData);
-                } catch (e) {
-                    console.log('Telemetry not available:', e.message);
-                }
-                            
-                // Get the Color char
-                colorCharacteristic = await service.getCharacteristic(COLOR_UUID);
-                
-                isConnected = true;
-                updateStatus('Connected', true);
-
-            } catch (error) {
-                console.error('Connection failed:', error);
-                device = null; 
-                updateStatus('Connection Failed', false);
-                alert(`Bluetooth Error: ${error.message}`); 
-                setTimeout(() => updateStatus('Disconnected', false), 2000);
-            }
-        }
-
-        function disconnect() {
-            if (device && device.gatt.connected) { device.gatt.disconnect(); }
-            onDisconnected();
-        }
-
-        function onDisconnected() {
-            isConnected = false;
-            characteristic = null;
-            telemetryChar = null;
-            updateStatus('Disconnected', false);
-            resetTelemetry();
-        }
-
-        function updateStatus(text, connected) {
-            document.getElementById('statusDot').className = 'status-dot' + (connected ? ' connected' : '');
-            document.getElementById('statusText').textContent = text;
-            const btn = document.getElementById('btnConnect');
-            btn.textContent = connected ? 'Disconnect' : 'Connect';
-            btn.className = 'btn-connect' + (connected ? ' connected' : '');
-        }
-
-        // ============================================
-        // BLE Write (fast write-through, no throttle)
-        // ============================================
-        async function writeBrightness(value) {
-            if (!characteristic || !isConnected) return;
-            if (writing) { pendingValue = value; return; }
-
-            writing = true;
-            try {
-                const data = new Uint8Array([value]);
-                await characteristic.writeValueWithoutResponse(data);
-            } catch (err) {
-                console.error('Write error:', err);
-            }
-            writing = false;
-
-            if (pendingValue !== null) {
-                const next = pendingValue;
-                pendingValue = null;
-                writeBrightness(next);
-            }
-        }
-
-        // murata values for the ntc sensors
-        const TEMP_LUT = [
-            { raw: 2376, temp: 0 }, { raw: 2076, temp: 10 }, { raw: 1734, temp: 20 },
-            { raw: 1535, temp: 25 }, { raw: 1345, temp: 30 }, { raw: 1000, temp: 40 },
-            { raw: 724,  temp: 50 }, { raw: 516,  temp: 60 }, { raw: 363,  temp: 70 },
-            { raw: 257,  temp: 80 }, { raw: 184,  temp: 90 }, { raw: 131,  temp: 100 },
-            { raw: 95,   temp: 110 }, { raw: 70,   temp: 120 }, { raw: 61,   temp: 125 }
-        ];
-
-        function calculateCelsius(rawAdc) {
-            if (rawAdc >= TEMP_LUT[0].raw) return TEMP_LUT[0].temp;
-            if (rawAdc <= TEMP_LUT[TEMP_LUT.length - 1].raw) return TEMP_LUT[TEMP_LUT.length - 1].temp;
-
-            for (let i = 0; i < TEMP_LUT.length - 1; i++) {
-                const p1 = TEMP_LUT[i]; 
-                const p2 = TEMP_LUT[i + 1]; 
-
-                if (rawAdc <= p1.raw && rawAdc >= p2.raw) {
-                    const rawRange = p1.raw - p2.raw;
-                    const tempRange = p2.temp - p1.temp;
-                    const rawOffset = p1.raw - rawAdc;
-                    const val = p1.temp + (rawOffset / rawRange) * tempRange;
-                    return parseFloat(val.toFixed(1)); 
-                }
-            }
-            return 0;
-        }
-                
-        // ============================================
-        // Telemetry
-        // ============================================
-        function onTelemetryData(event) {
-            const data = event.target.value;
-
-            if (data.byteLength >= 10) {
-                const vcapRaw = data.getUint16(0, true);
-                if (vcapRaw > 0) {
-                    const vcapVolts = (vcapRaw / 2975.0) * 4.0;
-                    document.getElementById('vcapVal').textContent = vcapVolts.toFixed(2);
-                }
-
-                const ichgRaw = data.getUint16(2, true);
-                let current_mA = (110 - ichgRaw) * 28.57;
-                if (current_mA < 0) current_mA = 0;
-                document.getElementById('chargeI').textContent = current_mA.toFixed(0);
-
-                const ntcLedRaw = data.getUint16(4, true);
-                document.getElementById('LEDTemp').textContent = calculateCelsius(ntcLedRaw).toFixed(1);
-
-                const ntcTpsRaw = data.getUint16(6, true);
-                document.getElementById('tpsTemp').textContent = calculateCelsius(ntcTpsRaw).toFixed(1);
-            }
-        }
-
-        function resetTelemetry() {
-            document.getElementById('LEDTemp').textContent = '--';
-            document.getElementById('vcapVal').textContent = '--';
-            document.getElementById('tpsTemp').textContent = '--';
-            document.getElementById('chargeI').textContent = '--';
-        }
-
-        // ============================================
-        // UI Controls
-        // ============================================
-        function onSliderChange(value) {
-            value = Math.round(Number(value));
-            document.getElementById('brightnessVal').textContent = value;
-            updatePresetButtons(value);
-            updateSliderTrack(value);
-            writeBrightness(value);
-        }
-
-        function setPreset(value) {
-            document.getElementById('brightnessSlider').value = value;
-            document.getElementById('brightnessVal').textContent = value;
-            updatePresetButtons(value);
-            updateSliderTrack(value);
-            writeBrightness(value);
-        }
-
-        function updatePresetButtons(value) {
-            document.querySelectorAll('.btn-preset').forEach(btn => {
-                const btnVal = btn.textContent === 'OFF' ? 0 : parseInt(btn.textContent);
-                btn.classList.toggle('active', btnVal === value);
-            });
-        }
-
-        function updateSliderTrack(value) {
-            const slider = document.getElementById('brightnessSlider');
-            slider.style.background = `linear-gradient(to right, var(--accent-orange) 0%, var(--accent-orange) ${value}%, var(--border) ${value}%, var(--border) 100%)`;
-        }
-
-        /* --- NEW COLOR UI LOGIC --- */
-        async function handleColorBtn(btnElement, channelId) {
-            // 1. Shift the visual "active" state
-            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
-            
-            // 2. Transmit to nRF52
-            await setLedChannel(channelId);
-        }
-
-        async function setLedChannel(channelId) {
-            if (!colorCharacteristic || !isConnected) return;
-            try {
-                const data = new Uint8Array([channelId]);
-                await colorCharacteristic.writeValueWithoutResponse(data);
-            } catch (err) {
-                console.error("Color write failed:", err);
-            }
-        }
-
-        // ============================================
-        // PWA
-        // ============================================
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
-        }
-        window.addEventListener('online', () => document.getElementById('offlineBanner').classList.remove('show'));
-        window.addEventListener('offline', () => document.getElementById('offlineBanner').classList.add('show'));
-
-        updateSliderTrack(0);
-    </script>
-</body>
-</html>
+                <div class="telemetry-item"
