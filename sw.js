@@ -1,4 +1,4 @@
-const CACHE_NAME = 'litball-v2.5.4'; // BUMP THIS VERSION!
+const CACHE_NAME = 'litball-v2.5.5'; // BUMP THIS VERSION!
 const ASSETS = [
   './',
   './index.html',
